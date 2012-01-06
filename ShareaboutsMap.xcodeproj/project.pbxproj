@@ -15,6 +15,8 @@
 		A374807414B7C10E00601CC8 /* ShareaboutsAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A374807314B7C10E00601CC8 /* ShareaboutsAppDelegate.m */; };
 		A374807714B7C10E00601CC8 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A374807514B7C10E00601CC8 /* MainStoryboard.storyboard */; };
 		A374807A14B7C10E00601CC8 /* ShareaboutsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A374807914B7C10E00601CC8 /* ShareaboutsViewController.m */; };
+		A374808114B7C11E00601CC8 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A374808014B7C11E00601CC8 /* MapKit.framework */; };
+		A374808314B7C12400601CC8 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A374808214B7C12400601CC8 /* CoreLocation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,15 +24,17 @@
 		A374806314B7C10E00601CC8 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		A374806514B7C10E00601CC8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		A374806714B7C10E00601CC8 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		A374806B14B7C10E00601CC8 /* ShareaboutsMap-Info.plist */ = {isa = PBXFileReference; path = "ShareaboutsMap-Info.plist"; sourceTree = "<group>"; };
+		A374806B14B7C10E00601CC8 /* ShareaboutsMap-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ShareaboutsMap-Info.plist"; sourceTree = "<group>"; };
 		A374806D14B7C10E00601CC8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		A374806F14B7C10E00601CC8 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		A374807114B7C10E00601CC8 /* ShareaboutsMap-Prefix.pch */ = {isa = PBXFileReference; path = "ShareaboutsMap-Prefix.pch"; sourceTree = "<group>"; };
-		A374807214B7C10E00601CC8 /* ShareaboutsAppDelegate.h */ = {isa = PBXFileReference; path = ShareaboutsAppDelegate.h; sourceTree = "<group>"; };
+		A374807114B7C10E00601CC8 /* ShareaboutsMap-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ShareaboutsMap-Prefix.pch"; sourceTree = "<group>"; };
+		A374807214B7C10E00601CC8 /* ShareaboutsAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShareaboutsAppDelegate.h; sourceTree = "<group>"; };
 		A374807314B7C10E00601CC8 /* ShareaboutsAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShareaboutsAppDelegate.m; sourceTree = "<group>"; };
 		A374807614B7C10E00601CC8 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
-		A374807814B7C10E00601CC8 /* ShareaboutsViewController.h */ = {isa = PBXFileReference; path = ShareaboutsViewController.h; sourceTree = "<group>"; };
+		A374807814B7C10E00601CC8 /* ShareaboutsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShareaboutsViewController.h; sourceTree = "<group>"; };
 		A374807914B7C10E00601CC8 /* ShareaboutsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShareaboutsViewController.m; sourceTree = "<group>"; };
+		A374808014B7C11E00601CC8 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		A374808214B7C12400601CC8 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -38,6 +42,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A374808314B7C12400601CC8 /* CoreLocation.framework in Frameworks */,
+				A374808114B7C11E00601CC8 /* MapKit.framework in Frameworks */,
 				A374806414B7C10E00601CC8 /* UIKit.framework in Frameworks */,
 				A374806614B7C10E00601CC8 /* Foundation.framework in Frameworks */,
 				A374806814B7C10E00601CC8 /* CoreGraphics.framework in Frameworks */,
@@ -67,6 +73,8 @@
 		A374806214B7C10E00601CC8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A374808214B7C12400601CC8 /* CoreLocation.framework */,
+				A374808014B7C11E00601CC8 /* MapKit.framework */,
 				A374806314B7C10E00601CC8 /* UIKit.framework */,
 				A374806514B7C10E00601CC8 /* Foundation.framework */,
 				A374806714B7C10E00601CC8 /* CoreGraphics.framework */,
