@@ -33,6 +33,8 @@
     [locationManager setDesiredAccuracy:kCLLocationAccuracyBest];
     
     [self.mapView setShowsUserLocation:YES];
+    
+    self.mapView.delegate = self;
 }
 
 - (void)viewDidUnload
@@ -67,6 +69,17 @@
 {
     // Return YES for supported orientations
     return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
+}
+
+#pragma mark - mapView things
+
+- (void)mapView:(MKMapView *)mv didAddAnnotationViews:(NSArray *)views
+{
+    MKAnnotationView *annotationView = [views objectAtIndex:0];
+    id<MKAnnotation> mp = [annotationView annotation];
+    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance([mp coordinate], 250, 250);
+    
+    [mv setRegion:region animated:YES];
 }
 
 @end
