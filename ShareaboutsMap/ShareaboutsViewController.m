@@ -9,6 +9,7 @@
 #import "ShareaboutsViewController.h"
 
 @implementation ShareaboutsViewController
+@synthesize mapView;
 
 - (void)didReceiveMemoryWarning
 {
@@ -26,6 +27,7 @@
 
 - (void)viewDidUnload
 {
+    [self setMapView:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
