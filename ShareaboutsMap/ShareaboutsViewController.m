@@ -10,6 +10,8 @@
 
 @implementation ShareaboutsViewController
 @synthesize mapView;
+@synthesize locationManager;
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -23,6 +25,14 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+    
+    locationManager = [[CLLocationManager alloc] init];
+    // [locationManager setDelegate:self]; ?? gave me error
+    
+    [locationManager setDistanceFilter:kCLDistanceFilterNone];
+    [locationManager setDesiredAccuracy:kCLLocationAccuracyBest];
+    
+    [self.mapView setShowsUserLocation:YES];
 }
 
 - (void)viewDidUnload
