@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 OpenPlans. All rights reserved.
 //
 
-#define kTextURL    @"http://shareabouts.dev.openplans.org/locations"
+#define kTextURL    @"http://shareabouts.dev.openplans.org/locations.json"
 
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>

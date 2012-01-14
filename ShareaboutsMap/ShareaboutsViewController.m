@@ -28,6 +28,34 @@ static const int ACTIVE_STATE = 0;
     // Release any cached data, images, etc that aren't in use.
 }
 
+-(IBAction)loadPoints
+{
+    [self setUIState:LOADING_STATE];
+    NSString *urlAsString = [NSString stringWithFormat:@"%@", kTextURL ];
+    
+    NSURLRequest *req = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:urlAsString]];
+    
+    urlConnection = [[NSURLConnection alloc] initWithRequest:req delegate:self];
+    
+    // Connection successful
+    if (urlConnection) {
+        NSMutableData *data = [[NSMutableData alloc] init];
+        self.receivedData   = data;
+    }
+    else
+    {
+        UIAlertView *alert = [
+                              [UIAlertView alloc]
+                              initWithTitle:NSLocalizedString(@"Error", @"Error")
+                              message:NSLocalizedString(@"Error connecting to remote server", @"Error connecting to remote server")
+                              delegate:self
+                              cancelButtonTitle:NSLocalizedString(@"Bummer", @"Bummer")
+                              otherButtonTitles:nil
+                              ];
+        [alert show];
+    }    
+}
+
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad
@@ -35,19 +63,15 @@ static const int ACTIVE_STATE = 0;
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     
-    // locationManager setup
-    locationManager = [[CLLocationManager alloc] init];
-//    [locationManager setDelegate:self]; ?? gave me error
-    [locationManager setDistanceFilter:kCLDistanceFilterNone];
-    [locationManager setDesiredAccuracy:kCLLocationAccuracyBest];
-    [self.mapView setShowsUserLocation:YES];
-    self.mapView.delegate = self;
+    CLLocationCoordinate2D openPlansCoord = {40.719991, -73.999530};
     
-    // Fetch server data
-    // Change UI to loading state
-    [self setUIState:LOADING_STATE];
+	MKCoordinateSpan span = {0.2, 0.2};
+    MKCoordinateRegion region = { openPlansCoord, span};
     
-
+    [mapView setRegion:region animated:TRUE];
+	[mapView regionThatFits:region];
+    
+    [self loadPoints];
 }
 
 - (void)viewDidUnload
@@ -113,42 +137,68 @@ static const int ACTIVE_STATE = 0;
 
 #pragma mark - data stuff
 
--(IBAction)loadPoints:(id)sender
-{
-    NSLog(@"loadPoints");
-    // Change UI to loading state
-    [self setUIState:LOADING_STATE];
-    NSString *urlAsString = [NSString stringWithFormat:@"%@", kTextURL ];
-    
-    NSLog(@"urlAsString: %@",urlAsString );
-    NSURLRequest *req = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:urlAsString]];
-    
-    // Create the NSURLConnection con object with the NSURLRequest req object
-    // and make this MountainsEx01ViewController the delegate.
-    urlConnection = [[NSURLConnection alloc] initWithRequest:req delegate:self];
-    
-    // Connection successful
-    if (urlConnection) {
-        NSMutableData *data = [[NSMutableData alloc] init];
-        self.receivedData   = data;
-        // [data release];
-    }
-    // Connection failed.
-    else
-    {
-        UIAlertView *alert = [
-                              [UIAlertView alloc]
-                              initWithTitle:NSLocalizedString(@"Error", @"Error")
-                              message:NSLocalizedString(@"Error connecting to remote server", @"Error connecting to remote server")
-                              delegate:self
-                              cancelButtonTitle:NSLocalizedString(@"Bummer", @"Bummer")
-                              otherButtonTitles:nil
-                              ];
-        [alert show];
-        // [alert release];
-    }
-    // [req release];
 
+
+#pragma mark - NSURLConnection Callbacks
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
+{
+    [receivedData setLength:0];
 }
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+{
+    [receivedData appendData:data];
+}
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+{
+    self.receivedData = nil; 
+    
+    UIAlertView *alert = [[UIAlertView alloc]
+                          initWithTitle:@"Error"
+                          message:[NSString stringWithFormat:@"Connection failed! Error - %@ (URL: %@)", [error localizedDescription],[[error userInfo] objectForKey:NSURLErrorFailingURLStringErrorKey]]
+                          delegate:self
+                          cancelButtonTitle:@"Bummer"
+                          otherButtonTitles:nil];
+    [alert show];
+    [self setUIState:ACTIVE_STATE];
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+    NSError *error;
+    NSDictionary *parsedData = [NSJSONSerialization 
+                                JSONObjectWithData:receivedData
+                                options:kNilOptions 
+                                error:&error];
+        
+    NSArray *features = [parsedData valueForKey:@"features"];
+
+    for (int i=0; i < [features count]; i++) {
+        NSDictionary *feature = [features objectAtIndex:i];
+        NSArray *coordinates  = [[feature valueForKey:@"geometry"] valueForKey:@"coordinates"];
+        NSString *properties  = [feature valueForKey:@"properties"];
+                
+        CLLocationCoordinate2D latLng = { 
+            [[coordinates objectAtIndex:1] doubleValue], 
+            [[coordinates objectAtIndex:0] doubleValue] 
+        };
+        
+        MKPointAnnotation *annotationPoint = [[MKPointAnnotation alloc] init];
+        annotationPoint.coordinate = latLng;
+        
+        NSString *title = [properties valueForKey:@"name"];
+        NSString *subTitle = [properties valueForKey:@"description"];
+        
+        if (title == (id)[NSNull null] || title.length == 0 ) 
+            title = [NSString stringWithFormat:@"Shareabouts Point %@", [properties valueForKey:@"id"]];
+        annotationPoint.title = title;
+
+        if (subTitle != (id)[NSNull null] && subTitle.length > 0 ) 
+            annotationPoint.subtitle = subTitle;
+        
+        [mapView addAnnotation:annotationPoint]; 
+    }
+}
+
 
 @end
